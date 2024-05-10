@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  localai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./creation_params.json:/app/LocalAIVoiceChat/creation_params.json
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ports:
+      - "8081:8080" # Adjust this if your application uses a different port
